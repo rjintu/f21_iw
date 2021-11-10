@@ -1,8 +1,7 @@
-from os import error
+from os import getenv
+import gc
 import requests
-import gc 
 from dotenv import load_dotenv
-import os
 
 total_cases = 0 # total across a state
 aggregate_total = 0
@@ -13,11 +12,11 @@ load_dotenv()
 
 # parameters for request
 page_size = 10000
-date_min = '1980-01-01'
-date_max = '2020-12-31'
+date_min = '1860-01-01'
+date_max = '1889-12-31'
 region = 'midwest'
-auth_token = os.getenv('CASELAW_KEY') # store in a private .env variable!
-filename = f'{region}_opinions_1980-now.txt'
+auth_token = getenv('CASELAW_KEY') # store in a private .env variable!
+filename = f'{region}_opinions_1860-1889.txt'
 
 # regions
 regions = {
@@ -82,8 +81,6 @@ regions = {
     }
 
 }
-
-# TODO: start searching by each element in the region!! Add a loop around.
 
 def parse_results(data, output):
     global counter_cases
