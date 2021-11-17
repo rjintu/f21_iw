@@ -57,7 +57,7 @@ n_process = cpu_count() - 1
 for filename in os.listdir(in_dir):
     i += 1
     output_list = []
-    if filename.endswith('.txt') and filename == 'midwest_opinions_1950-1979.txt':
+    if filename.endswith('.txt'):
         num_lines = 0
         print(filename)
         curr_file = open(os.path.join(in_dir, filename), 'r')
