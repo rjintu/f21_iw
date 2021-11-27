@@ -44,3 +44,13 @@ print(all_white)
 print()
 print('Set of Black names')
 print(all_black)
+
+# pipe names to output file
+with open('white_names.txt', 'w') as white_output:
+    for name in all_white:
+        white_output.write(name + '\n')
+
+with open('black_names.txt', 'w') as black_output:
+    for name in all_black:
+        black_output.write(name + '\n')
+

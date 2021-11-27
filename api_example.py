@@ -12,14 +12,17 @@ load_dotenv()
 
 # parameters for request
 page_size = 10000
-date_min = '1860-01-01'
-date_max = '1889-12-31'
-region = 'midwest'
+date_min = '1980-01-01'
+date_max = '2019-12-31'
+region = 'federal'
 auth_token = getenv('CASELAW_KEY') # store in a private .env variable!
-filename = f'{region}_opinions_1860-1889.txt'
+filename = f'{region}_opinions_1980-now.txt'
 
 # regions
 regions = {
+    'federal': {
+        'us':1
+    },
     'northeast': {
         "conn":1, 
         "mass":1, 

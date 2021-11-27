@@ -1,43 +1,3 @@
-# import os 
-# import nltk
-# from nltk import stem, word_tokenize
-# from nltk.stem import WordNetLemmatizer
-# from nltk.corpus import wordnet
-# nltk.download('punkt')
-# nltk.download('wordnet')
-# nltk.download('averaged_perceptron_tagger')
-
-# in_dir = r'/Users/Firebolt/Documents/Sem5-Fall2021/cos397/f21_iw/data'
-# out_dir = r'/Users/Firebolt/Documents/Sem5-Fall2021/cos397/f21_iw/cleaned_data'
-
-
-# def get_wordnet_pos(word):
-#     """Map POS tag to first character lemmatize() accepts"""
-#     tag = nltk.pos_tag([word])[0][1][0].upper()
-#     tag_dict = {"J": wordnet.ADJ,
-#                 "N": wordnet.NOUN,
-#                 "V": wordnet.VERB,
-#                 "R": wordnet.ADV}
-
-#     return tag_dict.get(tag, wordnet.NOUN)
-
-
-
-# lemmatizer = WordNetLemmatizer()
-
-# for filename in os.listdir(in_dir):
-#     if filename.endswith('.txt'):
-#         print(filename)
-#         curr_file = open(os.path.join(in_dir, filename), 'r')
-#         line = curr_file.readline()
-
-#         while line:
-#             word_list = word_tokenize(line)
-#             lemmatized_output = ' '.join([lemmatizer.lemmatize(w, get_wordnet_pos(w)) for w in word_list])
-
-#             line = curr_file.readline()
-
-
 import os
 import spacy
 import gc
@@ -61,10 +21,14 @@ for filename in os.listdir(in_dir):
         num_lines = 0
         print(filename)
         curr_file = open(os.path.join(in_dir, filename), 'r')
-        output_file = open(os.path.join(out_dir, os.path.splitext(filename)[0] + '_formatted.txt'), 'w')
+        output_file = open(os.path.join(out_dir, os.path.splitext(filename)[0] + '_formatted.txt'), 'w') # BEWARE THE WRITE/APPEND!
         line = curr_file.readline()
         
         input_list = [] # use this to get the input collectively 
+
+        # while line and num_lines < 80000:
+        #     num_lines += 1
+        #     line = curr_file.readline()
 
         while line:
             input_list.append(line)
@@ -74,7 +38,7 @@ for filename in os.listdir(in_dir):
             if num_lines % 2000 == 0:
                 # pipe in batches of 100
                 
-                for doc in nlp.pipe(input_list, batch_size=50):
+                for doc in nlp.pipe(input_list, batch_size=100):
                     formatted_line = " ".join([token.lemma_ for token in doc if not token.lemma_ in all_stopwords])
                     # print(formatted_line)
                     output_list.append(formatted_line)
@@ -89,7 +53,7 @@ for filename in os.listdir(in_dir):
                 print(num_lines)
             
             # periodic bulk write
-            if num_lines % 20000 == 0:
+            if num_lines % 30000 == 0:
                 output_file.writelines(output_list)
                 print(f'outputted through line {num_lines}')
                 del output_list
