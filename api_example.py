@@ -24,62 +24,62 @@ regions = {
         'us':1
     },
     'northeast': {
-        "conn":1, 
-        "mass":1, 
-        "me":1, 
-        "nh":1, 
-        "nj":1, 
-        "ny":1, 
-        "pa":1, 
-        "ri":1, 
+        "conn":1,
+        "mass":1,
+        "me":1,
+        "nh":1,
+        "nj":1,
+        "ny":1,
+        "pa":1,
+        "ri":1,
         "vt":1
     },
     'midwest': {
-        "ill":1, 
-        "ind":1, 
-        "iowa":1, 
-        "kan":1, 
-        "mich":1, 
+        "ill":1,
+        "ind":1,
+        "iowa":1,
+        "kan":1,
+        "mich":1,
         "minn":1,
-        "mo":1, 
-        "nd":1, 
-        "neb":1, 
-        "ohio":1, 
-        "sd":1, 
+        "mo":1,
+        "nd":1,
+        "neb":1,
+        "ohio":1,
+        "sd":1,
         "wis":1
     },
     'south': {
-        "ala":1, 
-        "ark":1, 
-        "dc": 1,  
-        "del": 1,  
-        "fla": 1,  
-        "ga": 1,  
-        "ky": 1,  
-        "la": 1,  
-        "md": 1, 
-        "miss": 1,  
-        "nc": 1,  
-        "okla": 1,  
-        "sc": 1,  
-        "tenn": 1,  
-        "tex": 1,  
-        "va": 1,  
+        "ala":1,
+        "ark":1,
+        "dc": 1,
+        "del": 1,
+        "fla": 1,
+        "ga": 1,
+        "ky": 1,
+        "la": 1,
+        "md": 1,
+        "miss": 1,
+        "nc": 1,
+        "okla": 1,
+        "sc": 1,
+        "tenn": 1,
+        "tex": 1,
+        "va": 1,
         "w-va":1
     },
     'west': {
-        "alaska": 1,  
-        "ariz": 1,  
-        "cal": 1,  
-        "colo": 1,  
-        "haw": 1,  
-        "idaho": 1, 
-        "mont": 1,  
-        "nev": 1,  
-        "nm": 1,  
-        "or": 1,  
-        "utah": 1,  
-        "wash": 1,  
+        "alaska": 1,
+        "ariz": 1,
+        "cal": 1,
+        "colo": 1,
+        "haw": 1,
+        "idaho": 1,
+        "mont": 1,
+        "nev": 1,
+        "nm": 1,
+        "or": 1,
+        "utah": 1,
+        "wash": 1,
         "wyo": 1
     }
 
@@ -92,13 +92,12 @@ def parse_results(data, output):
             # Preprocess here
             text = opinion["text"].lower()
             output.append(text)
-        
         counter_cases += 1
 
         if counter_cases % 10000 == 0:
             print(f'{counter_cases} of {total_cases} done')
 
-def fetch_data(state):
+def fetch_data(state, output_file):
     global total_cases
     global aggregate_total
     output = []
@@ -123,7 +122,18 @@ def fetch_data(state):
             url = data["next"] # use for future tokens
 
             parse_results(data, output)
-        else:
+        
+        # hit 20,000 cases, write to disk
+        if counter_cases % 20000 == 0:
+            output_file.writelines(output)
+            print(f'outputted through case {counter_cases}')
+            del output
+            output = []
+            gc.collect()
+        # stop processing cases after this point
+        if counter_cases > 700000:
+            print('outta here')
+            print(counter_cases)
             break
     return output
 
@@ -138,12 +148,12 @@ def main():
     print(f'Time period selected: {date_min} to {date_max}')
     print(f'Output file name: {filename}')
 
-    with open(filename, 'a') as output_file:
+    with open(filename, 'w') as output_file:
 
         for state in regions[region]:
             counter_cases = 0
             print(f"CURRENT STATE: {state}")
-            output_list = fetch_data(state)
+            output_list = fetch_data(state, output_file)
 
             if output_list is None:
                 print(f'No results for {state}')
