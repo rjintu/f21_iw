@@ -1,0 +1,4 @@
+federal opinions 1890-1919
+Test statistic for the given data 0.15332113096574887
+Mean: 6.538857526503844e-05
+Std Dev: 0.033833255934737974

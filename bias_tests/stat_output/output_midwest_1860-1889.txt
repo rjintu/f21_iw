@@ -1,0 +1,4 @@
+midwest opinions 1860-1889
+Test statistic for the given data 0.094842055541835
+Mean: -0.00028536142949150706
+Std Dev: 0.03391366737797887

@@ -1,0 +1,4 @@
+midwest opinions 1920-1949
+Test statistic for the given data 0.13283306001258055
+Mean: 0.0015845745683609567
+Std Dev: 0.045145456357143156

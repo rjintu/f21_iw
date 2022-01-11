@@ -1,0 +1,4 @@
+midwest opinions 1980-now
+Test statistic for the given data 0.5271873155123535
+Mean: -0.003930775979724318
+Std Dev: 0.11181475241961351

@@ -1,0 +1,4 @@
+federal opinions 1980-now
+Test statistic for the given data 0.3755366301746936
+Mean: -0.00157701080564195
+Std Dev: 0.09418001407128755

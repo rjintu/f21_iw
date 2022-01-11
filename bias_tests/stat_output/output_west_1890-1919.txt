@@ -1,0 +1,4 @@
+west opinions 1890-1919
+Test statistic for the given data 0.05953479946459508
+Mean: 7.546584762459135e-05
+Std Dev: 0.014826173857717735

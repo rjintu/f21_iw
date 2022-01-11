@@ -1,0 +1,4 @@
+south opinions 1920-1949
+Test statistic for the given data 0.06157383983087856
+Mean: 0.0006391291591422898
+Std Dev: 0.03381907053943541

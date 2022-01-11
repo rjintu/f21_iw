@@ -1,0 +1,4 @@
+west opinions 1860-1889
+Test statistic for the given data -0.010487711162812139
+Mean: 0.0003686710352430522
+Std Dev: 0.014757270559443784

@@ -1,0 +1,4 @@
+northeast opinions 1980-now
+Test statistic for the given data 0.46956580090629163
+Mean: -0.004458035257107361
+Std Dev: 0.10602964415569963

@@ -1,0 +1,4 @@
+northeast opinions 1890-1919
+Test statistic for the given data 0.17910023976482253
+Mean: 0.0006624755335231246
+Std Dev: 0.04026313151285412

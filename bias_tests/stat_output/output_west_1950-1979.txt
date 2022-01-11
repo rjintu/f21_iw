@@ -1,0 +1,4 @@
+west opinions 1950-1979
+Test statistic for the given data 0.1547147109122372
+Mean: 0.0010211948704212485
+Std Dev: 0.05776827445782092

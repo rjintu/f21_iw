@@ -1,0 +1,4 @@
+federal opinions 1950-1979
+Test statistic for the given data 0.18167941454672615
+Mean: 0.0010870468471585167
+Std Dev: 0.04743097377489501

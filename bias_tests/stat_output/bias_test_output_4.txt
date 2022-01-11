@@ -1,0 +1,4 @@
+output_4
+Test statistic for the given data 0.3833594956076636
+Mean: -0.0028933718477101343
+Std Dev: 0.11073094182167552

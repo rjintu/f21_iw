@@ -1,0 +1,4 @@
+south opinions 1980-now
+Test statistic for the given data 0.6139886886527319
+Mean: -0.0018901219857661179
+Std Dev: 0.11436077067038877

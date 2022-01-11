@@ -1,0 +1,4 @@
+south opinions 1860-1889
+Test statistic for the given data 0.13298203108070866
+Mean: 0.001418458845978353
+Std Dev: 0.045990121465080955
