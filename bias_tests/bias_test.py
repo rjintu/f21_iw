@@ -77,6 +77,22 @@ def main():
     black_names, white_names = parse_names()
     # black_names, white_names = remove_oov_words(W_norm, vocab, black_names), remove_oov_words(W_norm, vocab, white_names)
 
+    # count the name occurrences here!
+    b_occurrences = 0 
+    for name in black_names:
+        if get_embedding(W, vocab, name)g is not None:
+            b_occurrences += 1
+    
+    w_occurrences = 0 
+    for name in white_names:
+        if get_embedding(W, vocab, name) is not None:
+            w_occurrences += 1
+    
+    # print the total number for each name
+    print(f"For vocab file {args.vocab_file}, black name occurrences is {b_occurrences} and white name occurrences is {w_occurrences}")
+
+    exit() # TODO: remove this soon! Only keep this if calculating total number of individuals impacted by the cases
+
     test_statistics = []
     if args.randomized_trials:
         for _ in trange(int(args.randomized_trials[0])):
