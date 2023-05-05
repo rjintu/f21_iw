@@ -24,6 +24,8 @@
 # make the file sizes relatively similar
 
 
+# dictionary: pleasant and unpleasant, the key is the word and the value is the annotation
+
 import argparse
 import numpy as np
 import spacy
@@ -94,15 +96,15 @@ def randomize_categories(pleasant_orig, unpleasant_orig):
     Given the original pleasant and unpleasant lists, scramble them (for randomization trials)  
     '''
     all_words = pleasant_orig + unpleasant_orig
-    pleasant_shuffled = []
-    unpleasant_shuffled = []
+    pleasant_shuffled = {}
+    unpleasant_shuffled = {}
 
-    for word in all_words:
+    for word, val in all_words:
         curr = random.randint(0, 1)
         if curr == 0:
-            pleasant_shuffled.append(word)
+            pleasant_shuffled[word] = abs(val)
         else:
-            unpleasant_shuffled.append(word)
+            unpleasant_shuffled[word] = - abs(val)
 
     return pleasant_shuffled, unpleasant_shuffled
 
@@ -139,8 +141,13 @@ def remove_oov_words(W, vocab, check_words):
     :param vocab: the vocabulary in the GloVe embeddings
     :param check_words: the set of words to check against the GloVe vocabulary
     '''
-    output_words = [word for word in check_words if get_embedding(W, vocab, word) is not None]
-    return output_words
+
+    # the output should be the same format as the dictionary
+    for elem in check_words:
+        if elem not in vocab:
+            check_words.pop(elem)
+    # output_words = [word, val for word, val in check_words.items() if get_embedding(W, vocab, word) is not None]
+    return check_words
     
 
 def calculate_mean_name_association(W, vocab, name, pleasant, unpleasant):
@@ -149,8 +156,8 @@ def calculate_mean_name_association(W, vocab, name, pleasant, unpleasant):
     :param W: the vector embeddings matrix
     :param vocab: the vocabulary in the GloVe embeddings
     :param name: name to use for comparison
-    :param pleasant: set of pleasant words
-    :param unpleasant: set of unpleasant words
+    :param pleasant: dictionary of pleasant words
+    :param unpleasant: dictionary of unpleasant words
     '''
     means_pleasant = np.zeros(len(pleasant))
     means_unpleasant = np.zeros(len(unpleasant))
@@ -159,13 +166,14 @@ def calculate_mean_name_association(W, vocab, name, pleasant, unpleasant):
     if name_embedding is None:
         return 0
 
-    for i in range(len(pleasant)):
-        pleasant_embedding = get_embedding(W, vocab, pleasant[i])
-        means_pleasant[i] = cosine_similarity(name_embedding, pleasant_embedding)
+    # todo: we want to weight by the score as well!!! FIXME: 
+    for i, key in enumerate(pleasant.keys()):
+        pleasant_embedding = get_embedding(W, vocab, key)
+        means_pleasant[i] = pleasant[key] * cosine_similarity(name_embedding, pleasant_embedding) 
 
-    for i in range(len(unpleasant)):
-        unpleasant_embedding = get_embedding(W, vocab, unpleasant[i])
-        means_unpleasant[i] = cosine_similarity(name_embedding, unpleasant_embedding)
+    for i, key in enumerate(unpleasant.keys()):
+        unpleasant_embedding = get_embedding(W, vocab, key)
+        means_unpleasant[i] = unpleasant[key] * cosine_similarity(name_embedding, unpleasant_embedding)
     return np.mean(means_pleasant) - np.mean(means_unpleasant)
 
 # get the vector embedding for a given word
@@ -190,8 +198,8 @@ def cosine_similarity(a, b):
 def parse_words():
     # if the word has a negative sign, it's unpleasant. Otherwise, pleasant.
     nlp = spacy.load('en_core_web_sm', disable=['parser', 'ner'])
-    pleasant = []
-    unpleasant = []
+    pleasant = {}
+    unpleasant = {}
     with open('../f21_iw/AFINN-111.txt', 'r') as input_words:
         curr_line = input_words.readline()
         while curr_line:
@@ -202,12 +210,12 @@ def parse_words():
             formatted_word = " ".join([token.lemma_ for token in nlp(word)])
 
             if val > 0:
-                pleasant.append(formatted_word)
+                pleasant[formatted_word] = val
             else:
-                unpleasant.append(formatted_word)
+                unpleasant[formatted_word] = val
 
             curr_line = input_words.readline()
-    return list(set(pleasant)), list(set(unpleasant))
+    return pleasant, unpleasant
 
 def parse_names():
     nlp = spacy.load('en_core_web_sm', disable=['parser', 'ner'])
@@ -238,7 +246,7 @@ def plot_data(randomized_data, actual_value, title):
     sns.kdeplot(randomized_data, bw=0.5).set_title(title)
     plt.axvline(x=actual_value)
     plt.axvline(x=critical_val, linestyle='--')
-    plt.savefig('_'.join(title.split(' ')) + '_butler.png')
+    plt.savefig('new_charts/' + '_'.join(title.split(' ')) + '_butler.png')
 
 if __name__ == '__main__':
     main()

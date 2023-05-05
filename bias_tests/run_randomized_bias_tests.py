@@ -1,3 +1,8 @@
+'''
+Run the bias tests on the randomized corpora
+Note: we need to get the embeddings for the randomized corpora before we can run bias tests on them!
+'''
+
 from os import system
 
 for i in range(20): # update this value for the number of output files

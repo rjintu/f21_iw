@@ -1,11 +1,12 @@
-# create randomized corpora
-
-# idea: create a dictionary/list of all of the potential sources of data
-# create a maximum size, and randomly select within a range for what that size should be
-# create a random order of data sources to select from
-# within each data source, randomly seek to a certain position 
-# then, pull a random amount from that part, perhaps some maximum so that we take data from a certain number of places
-# append into the corresponding file, repeat until the file has sufficient data
+'''
+create randomized corpora
+idea: create a dictionary/list of all of the potential sources of data
+create a maximum size, and randomly select within a range for what that size should be
+create a random order of data sources to select from
+within each data source, randomly seek to a certain position 
+then, pull a random amount from that part, perhaps some maximum so that we take data from a certain number of places
+append into the corresponding file, repeat until the file has sufficient data
+'''
 
 import os, random, gc, argparse
 
